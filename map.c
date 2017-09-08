@@ -241,29 +241,29 @@ make_move(MoveClass class, Col from_col, Rank from_rank, Col to_col, Rank to_ran
     /* If a KING or ROOK is moved, this might affect castling rights. */
     if (piece == KING) {
         if (colour == WHITE) {
-			if (class == KINGSIDE_CASTLE) { //if castling, king goes to 'g' or 'c' file
-				board->WKingCol = 'g'; 
-			}
-			else if (class == QUEENSIDE_CASTLE) {
-				board->WKingCol = 'c';
-			}
-			else {
-				board->WKingCol = to_col;
-			}
-			board->WKingRank = to_rank;
+	    if (class == KINGSIDE_CASTLE) { //if castling, king goes to 'g' or 'c' file
+	    	board->WKingCol = 'g'; 
+	    }
+	    else if (class == QUEENSIDE_CASTLE) {
+	    	board->WKingCol = 'c';
+	    }
+	    else {
+	    	board->WKingCol = to_col;
+	    }
+	    board->WKingRank = to_rank;
             board->WKingCastle = board->WQueenCastle = '\0';
         }
         else {
-			if (class == KINGSIDE_CASTLE) {
-				board->BKingCol = 'g';
-			}
-			else if (class == QUEENSIDE_CASTLE) {
-				board->BKingCol = 'c';
-			}
-			else {
-				board->BKingCol = to_col;
-			}
-			board->BKingRank = to_rank;
+	    if (class == KINGSIDE_CASTLE) {
+	    	board->BKingCol = 'g';
+	    }
+	    else if (class == QUEENSIDE_CASTLE) {
+	    	board->BKingCol = 'c';
+	    }
+	    else {
+	    	board->BKingCol = to_col;
+	    }
+	    board->BKingRank = to_rank;
             board->BKingCastle = board->BQueenCastle = '\0';
         }
     }
@@ -409,18 +409,18 @@ make_move(MoveClass class, Col from_col, Rank from_rank, Col to_col, Rank to_ran
     }
     /* Place the piece at its destination. */
 	if (piece == KING && (class == KINGSIDE_CASTLE || class == QUEENSIDE_CASTLE)) {
-		int tmp_col = (class == KINGSIDE_CASTLE) ? 'g' : 'c';
-		board->board[to_r][ColConvert(tmp_col)] = MAKE_COLOURED_PIECE(colour, piece);
-		board->weak_hash_value ^= hash_lookup(tmp_col, to_rank, piece, colour);
+	    int tmp_col = (class == KINGSIDE_CASTLE) ? 'g' : 'c';
+	    board->board[to_r][ColConvert(tmp_col)] = MAKE_COLOURED_PIECE(colour, piece);
+	    board->weak_hash_value ^= hash_lookup(tmp_col, to_rank, piece, colour);
 	}
 	else {
-		board->board[to_r][to_c] = MAKE_COLOURED_PIECE(colour, piece);
-		/* Insert the moved piece into the hash value. */
-		board->weak_hash_value ^= hash_lookup(to_col, to_rank, piece, colour);
+	    board->board[to_r][to_c] = MAKE_COLOURED_PIECE(colour, piece);
+	    /* Insert the moved piece into the hash value. */
+	    board->weak_hash_value ^= hash_lookup(to_col, to_rank, piece, colour);
 	}
     if (castling_rook_col != '\0') {
         /* The rook involved in the castling move must now be moved. */
-		int tmp_col = (class == KINGSIDE_CASTLE) ? 'g' : 'c'; //King goes to g or c file
+	int tmp_col = (class == KINGSIDE_CASTLE) ? 'g' : 'c'; //King goes to g or c file
         if (castling_rook_col != tmp_col) {
             /* It must be removed. */
             board->weak_hash_value ^= hash_lookup(castling_rook_col, from_rank, ROOK, colour);
